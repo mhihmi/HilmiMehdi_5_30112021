@@ -9,9 +9,8 @@ loadConfig().then(data => {
         .then(data => data.json()) // Ici on récupère des données brutes au format texte pour les transformer en objet de données au format json
         .then(jsonListProduct => { // ici on récupère la liste de produits au format data.json
             // console.log(jsonListProduct); // On vérifie si le fetch a fonctionné
-            for (let jsonProduct of jsonListProduct) {
-                // console.log(jsonProduct);
-                let product = new Product(jsonProduct); // class dans le fichier product_class.js
+            for (let product of jsonListProduct) {
+                // console.log(product); 
                 document.querySelector("#items").innerHTML += `<a href="./product.html?id=${product._id}">
                                                                           <article>
                                                                          <img src="${product.imageUrl}" alt="${product.altTxt}">
