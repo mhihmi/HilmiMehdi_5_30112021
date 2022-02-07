@@ -17,12 +17,12 @@ loadConfig().then(data => {
 
             for (let color of jsonProduct.colors) {  // on parcours le array de colors
                 let option = document.createElement("option"); // on créé une balise option pour chaque color
-                option.innerHTML = `${color}`; // injection des données contenue dans le array en html
-                option.value = `${color}`; // injection des données du array dans l'attribut value
+                option.innerHTML = `${color}`; // injection des données contenues dans le arrayJson en html
+                option.value = `${color}`; // injection des données du arrayJson dans l'attribut value
 
                 // on inject l'élément créé en tant qu'enfant du select avec l'id colors
-                let colorParent = document.querySelector("#colors");
-                colorParent.appendChild(option);
+                let optionParent = document.querySelector("#colors");
+                optionParent.appendChild(option);
             }
         })
         .catch((error) => {
