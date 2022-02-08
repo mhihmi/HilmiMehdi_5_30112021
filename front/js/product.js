@@ -1,3 +1,6 @@
+// Créons un panier au chargement de la page (cf class dans cartfunctions.js)
+let cart = new Cart();
+
 // Récupération de l'id dans l'URL + création de l'objet productID
 const usp = new URLSearchParams(window.location.search);
 const productID = usp.get("id");
