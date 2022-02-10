@@ -40,8 +40,11 @@ loadConfig().then(data => {
                 let product = {
                     id: `${productID}`,
                     name: `${jsonProduct.name}`,
+                    image: `${jsonProduct.imageUrl}`,
+                    altTxt: `${jsonProduct.altTxt}`,
                     color: `${colorChoice.value}`,
                     quantity: `${quantity.value}`,
+
                 };
 
                 if (colorChoice.value == "" || quantity.value <= 0 || quantity.value > 100) {
@@ -50,7 +53,7 @@ loadConfig().then(data => {
                     warning.innerHTML = "Merci d'indiquer une couleur et une quantité comprise entre 1 et 100";
                     content.appendChild(warning);
                     setTimeout(function () {
-                        warning.innerHTML = "";
+                        warning.remove()
                     }, 3000);
                 } else {
                     cart.add(product);
