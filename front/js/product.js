@@ -17,14 +17,17 @@ loadConfig().then(data => {
         .then(jsonProduct => { // ici on récupère le produit de l'url en question au format data.json
             // console.log(jsonProduct); // On vérifie si le fetch a fonctionné
             //Place aux injections de contenu :
-            document.querySelector(".item__img").innerHTML += `<img src="${jsonProduct.imageUrl}" alt="${jsonProduct.altTxt}">`;
+            let content = `<img src="${jsonProduct.imageUrl}" alt="${jsonProduct.altTxt}">`;
+            document.querySelector(".item__img").insertAdjacentHTML('beforeend', content); // Je tente d'éviter le innerHtml...
+            // document.querySelector(".item__img").innerHTML += `<img src="${jsonProduct.imageUrl}" alt="${jsonProduct.altTxt}">`;
             document.querySelector("#title").textContent += jsonProduct.name;
             document.querySelector("#price").textContent += jsonProduct.price;
             document.querySelector("#description").textContent += jsonProduct.description;
 
             for (let color of jsonProduct.colors) {  // on parcours le array de colors
                 let option = document.createElement("option"); // on créé une balise option pour chaque color
-                option.innerHTML = `${color}`; // injection des données contenues dans le arrayJson en html
+                option.append(`${color}`); // Est ce que ça optimise aussi, le fait d'éviter d'utiliser innerHTML ?
+                // option.innerHTML = `${color}`; // injection des données contenues dans le arrayJson en html
                 option.value = `${color}`; // injection des données du arrayJson dans l'attribut value
 
                 // on inject l'élément créé en tant qu'enfant du select avec l'id colors
@@ -32,7 +35,7 @@ loadConfig().then(data => {
                 optionParent.appendChild(option);
             }
 
-            // On créé un produit à envoyer au LocalStorage en lui assignant les choix de l'utilisateur
+            // On créé un produit à envoyer au LocalStorage/panier en lui assignant les choix de l'utilisateur
             function createProduct() {
                 let quantity = document.querySelector("#quantity");
                 let colorChoice = document.querySelector("#colors");

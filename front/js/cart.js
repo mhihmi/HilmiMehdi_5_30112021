@@ -26,15 +26,16 @@ loadConfig().then(data => {
         });
 })
 
-// Injection des fiches produits du panier dans le DOM
+// Injection des fiches produits du panier dans le DOM en utilisant les données du panier localStorage
 if (cart == null) {
     let message = document.createElement("p");
     message.innerHTML = "Votre panier est vide !";
     cartItems.appendChild(message);
     // console.log("Le panier est vide !")
 } else {
+    let content = "";
     for (let product of cart.cart) {
-        cartItems.innerHTML += `<article class="cart__item" data-id="${product.id}" data-color="${product.color}">
+        content += `<article class="cart__item" data-id="${product.id}" data-color="${product.color}">
                                                                 <div class="cart__item__img">
                                                                 <img src="${product.image}" alt="${product.altTxt}">
                                                                 </div>
@@ -55,8 +56,10 @@ if (cart == null) {
                                                                 </div>
                                                                 </div>
                                                             </article>`;
-        totalQuantity.innerHTML = cart.getNumberProduct();
+        // totalQuantity.innerHTML = cart.getNumberProduct();
     }
+    cartItems.insertAdjacentHTML('beforeend', content); // En insérant cette ligne dans la boucle ça me dédoublait les lignes des produits :x
+    totalQuantity.insertAdjacentHTML('beforeend', cart.getNumberProduct()); // Idhem
 };
 
 // Suppression d'un produit
