@@ -42,7 +42,7 @@ class Cart {
 
     remove(product) { // method pour retirer du panier. On peut la rename vu qu'on fera cart.remove
         // let cart = getCart(); // plus besoin, on utilise le panier du constructeur ! ;)
-        this.cart = this.cart.filter(p => p.id != product.id && p.color == product.color); // Un des moyens les plus simples et efficaces de retirer un élément. filter est comme find : travaille sur un array par rapport à une condition qu'on peut inverser. Ici on garde les éléments différents du produit renseigné. Avec un "==" on aurai conservé seulement le produit renseigné.
+        this.cart = this.cart.filter(p => p.id != product.id && p.color != product.color); // Un des moyens les plus simples et efficaces de retirer un élément. filter est comme find : travaille sur un array par rapport à une condition qu'on peut inverser. Ici on garde les éléments différents du produit renseigné. Avec un "==" on aurai conservé seulement le produit renseigné.
         this.save(); // on enregistre le nouveau panier
     }
 

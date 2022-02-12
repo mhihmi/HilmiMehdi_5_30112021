@@ -4,9 +4,29 @@ let cart = new Cart();
 // let cart = JSON.parse(localStorage.getItem("cart"));
 // });
 
+// Retrouvons nos éléments dynamiques dans le DOM
 let cartItems = document.querySelector("#cart__items");
+let totalPrice = document.querySelector("#totalPrice");
+let totalQuantity = document.querySelector("#totalQuantity");
 
-// Injection dans le DOM
+const productID = cart.cart[1].id;
+console.log(productID);
+
+// Récupération du prix depuis l'API
+loadConfig().then(data => {
+    config = data;
+    fetch(config.host + `/api/products/${productID}`) // <==>  fetch("http://localhost:3000/api/products/")
+        .then(data => data.json()) // Ici on récupère des données brutes au format texte pour les transformer en objet de données au format json
+        .then(Product => { // ici on récupère la liste de produits au format data.json
+            // console.log(jsonProduct); // On vérifie si le fetch a fonctionné
+
+        })
+        .catch((error) => {
+            console.log(`ERREUR : ${error}`);
+        });
+})
+
+// Injection des fiches produits du panier dans le DOM
 if (cart == null) {
     let message = document.createElement("p");
     message.innerHTML = "Votre panier est vide !";
@@ -35,5 +55,23 @@ if (cart == null) {
                                                                 </div>
                                                                 </div>
                                                             </article>`;
+        totalQuantity.innerHTML = cart.getNumberProduct();
     }
-}
+};
+
+// Suppression d'un produit
+const deleteProducts = document.querySelectorAll(".deleteItem");  // si je la défini avec les autres en haut, ça fonctionne pas !
+
+for (const deleteBtn of deleteProducts) { // on itère sur un NodeList Object avec querySelectorAll
+    deleteBtn.addEventListener("click", () => {
+        // dataID = deleteBtn.closest("article").getAttribute("data-id");
+        console.log(GetClosestProperties(deleteBtn));
+    })
+};
+
+// récupération des id/color dans le DOM
+function GetClosestProperties(e) {
+    let id = e.closest("article").getAttribute("data-id");
+    let color = e.closest("article").getAttribute("data-color");
+    return [id, color];
+};

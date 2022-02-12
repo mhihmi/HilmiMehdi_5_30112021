@@ -44,7 +44,6 @@ loadConfig().then(data => {
                     altTxt: `${jsonProduct.altTxt}`,
                     color: `${colorChoice.value}`,
                     quantity: `${quantity.value}`,
-
                 };
 
                 if (colorChoice.value == "" || quantity.value <= 0 || quantity.value > 100) {
