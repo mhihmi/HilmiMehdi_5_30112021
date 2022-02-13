@@ -9,6 +9,15 @@ let cartItems = document.querySelector("#cart__items");
 let totalPrice = document.querySelector("#totalPrice");
 let totalQuantity = document.querySelector("#totalQuantity");
 
+// let product = {
+//     id: `${productID}`,
+//     name: `${jsonProduct.name}`,
+//     image: `${jsonProduct.imageUrl}`,
+//     altTxt: `${jsonProduct.altTxt}`,
+//     color: `${colorChoice.value}`,
+//     quantity: `${quantity.value}`,
+// };
+
 // const productID = cart.cart[1].id;
 // console.log(productID);
 
@@ -65,20 +74,17 @@ if (cart == null) {
 // Suppression d'un produit
 const deleteProducts = document.querySelectorAll(".deleteItem");  // si je la défini avec les autres en haut, ça fonctionne pas !
 
-// let product = {
-//     id: `${productID}`,
-//     name: `${jsonProduct.name}`,
-//     image: `${jsonProduct.imageUrl}`,
-//     altTxt: `${jsonProduct.altTxt}`,
-//     color: `${colorChoice.value}`,
-//     quantity: `${quantity.value}`,
-// };
-
 for (const deleteBtn of deleteProducts) { // on itère sur un NodeList Object avec querySelectorAll
+    let cartProduct = GetClosestProperties(deleteBtn);
+    let articleToRemove = deleteBtn.closest("article");
+    let product = {
+        id: `${cartProduct[0]}`,
+        color: `${cartProduct[1]}`
+    }
     deleteBtn.addEventListener("click", () => {
         // dataID = deleteBtn.closest("article").getAttribute("data-id");
-        let productsToDelete = GetClosestProperties(deleteBtn);
-        console.log(productsToDelete);
+        cart.remove(product);
+        articleToRemove.remove();
     })
 };
 
