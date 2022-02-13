@@ -32,7 +32,7 @@ class Cart {
         // let cart = getCart(); // plus besoin, on utilise le panier du constructeur ! ;)
         let foundProduct = this.cart.find(p => p.id == product.id && p.color == product.color) // on cherche dans le panier si il y a un produit dont l'id et color est identique au produit qu'on veut ajouter (ft find avec la condition p, si il trouve pas d'élément, retourne undefined) 
         if (foundProduct != undefined) { // si on trouve un produit identique 
-            foundProduct.quantity += parseFloat(quantity.value); // on incrémente
+            foundProduct.quantity += parseFloat(quantity.value); // on y ajoute la valeur de l'input
         } else {
             product.quantity = parseFloat(quantity.value); // sinon on le défini à la quantité indiquée dans l'input !
             this.cart.push(product); // on considère cart comme un tableau => on y ajoute un produit
@@ -42,7 +42,7 @@ class Cart {
 
     remove(product) { // method pour retirer du panier. On peut la rename vu qu'on fera cart.remove
         // let cart = getCart(); // plus besoin, on utilise le panier du constructeur ! ;)
-        this.cart = this.cart.filter(p => p.id != product.id && p.color != product.color); // Un des moyens les plus simples et efficaces de retirer un élément. filter est comme find : travaille sur un array par rapport à une condition qu'on peut inverser. Ici on garde les éléments différents du produit renseigné. Avec un "==" on aurai conservé seulement le produit renseigné.
+        this.cart = this.cart.filter((p => p.id != product.id) && (p => p.color != product.color)); // Un des moyens les plus simples et efficaces de retirer un élément. filter est comme find : travaille sur un array par rapport à une condition qu'on peut inverser. Ici on garde les éléments différents du produit renseigné. Avec un "==" on aurai conservé seulement le produit renseigné.
         this.save(); // on enregistre le nouveau panier
     }
 
@@ -50,8 +50,8 @@ class Cart {
         // let cart = getCart(); // plus besoin, on utilise le panier du constructeur ! ;)
         let foundProduct = this.cart.find(p => p.id == product.id && p.color == product.color); // on cherche dans le panier si il y a un produit dont l'id est identique au produit dont on veut changer la quantité
         if (foundProduct != undefined) { // si on trouve un produit identique 
-            foundProduct.quantity += parseFloat(quantity.value); // On ajoute à la qté existante la qté souhaitée
-            if (foundProduct.quantity <= 0) { // si la quantité est <= 0
+            foundProduct.quantity += parseFloat(quantity); // On ajoute la qté souhaitée à la qté existante 
+            if (foundProduct.quantity <= 0 || quantity == null) { // si la quantité est <= 0
                 this.remove(foundProduct); // on le retire du panier et on enregistre le panier (cf ft remove)
             } else {
                 this.save(); // Sinon On enregistre le nouveau panier
