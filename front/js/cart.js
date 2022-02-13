@@ -21,20 +21,6 @@ let totalQuantity = document.querySelector("#totalQuantity");
 // const productID = cart.cart[1].id;
 // console.log(productID);
 
-// Récupération du prix depuis l'API
-loadConfig().then(data => {
-    config = data;
-    fetch(config.host + `/api/products/${productID}`) // <==>  fetch("http://localhost:3000/api/products/")
-        .then(data => data.json()) // Ici on récupère des données brutes au format texte pour les transformer en objet de données au format json
-        .then(Product => { // ici on récupère la liste de produits au format data.json
-            // console.log(jsonProduct); // On vérifie si le fetch a fonctionné
-
-        })
-        .catch((error) => {
-            console.log(`ERREUR : ${error}`);
-        });
-})
-
 // Injection des fiches produits du panier dans le DOM en utilisant les données du panier localStorage
 if (cart == null) {
     let message = document.createElement("p");
@@ -52,7 +38,7 @@ if (cart == null) {
                                                                 <div class="cart__item__content__description">
                                                                     <h2>${product.name}</h2>
                                                                     <p>${product.color}</p>
-                                                                    <p>${product.price} €</p>
+                                                                    <p class="price"> €</p>
                                                                 </div>
                                                                 <div class="cart__item__content__settings">
                                                                     <div class="cart__item__content__settings__quantity">
@@ -65,11 +51,31 @@ if (cart == null) {
                                                                 </div>
                                                                 </div>
                                                             </article>`;
-        // totalQuantity.innerHTML = cart.getNumberProduct();
     }
     cartItems.insertAdjacentHTML('beforeend', content); // En insérant cette ligne dans la boucle ça me dédoublait les lignes des produits :x
     totalQuantity.insertAdjacentHTML('beforeend', cart.getNumberProduct()); // Idhem
+    // totalQuantity.innerHTML = cart.getNumberProduct();
 };
+
+// Récupération du prix depuis l'API
+for (let productCart of cart.cart) {
+    loadConfig().then(data => {
+        config = data;
+        fetch(config.host + `/api/products/${productCart.id}`) // <==>  fetch("http://localhost:3000/api/products/productId")
+            .then(data => data.json()) // Ici on récupère des données brutes au format texte pour les transformer en objet de données au format json
+            .then(productApi => { // ici on récupère la liste de produits au format data.json
+                // console.log(jsonProduct); // On vérifie si le fetch a fonctionné
+                console.log(productApi.price);
+                let productPrices = document.querySelectorAll(".price");
+                for (let productPrice of productPrices) {
+                    productPrice.innerHTML = `${productApi.price} €`;
+                };
+            })
+            .catch((error) => {
+                console.log(`ERREUR : ${error}`);
+            });
+    })
+}
 
 // Suppression d'un produit
 const deleteProducts = document.querySelectorAll(".deleteItem");  // si je la défini avec les autres en haut, ça fonctionne pas !
