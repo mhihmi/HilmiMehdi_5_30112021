@@ -51,31 +51,28 @@ if (cart == null) {
                                                                 </div>
                                                                 </div>
                                                             </article>`;
+        // Récupération du prix depuis l'API
+        loadConfig().then(data => {
+            config = data;
+            fetch(config.host + `/api/products/${product.id}`) // <==>  fetch("http://localhost:3000/api/products/productId")
+                .then(data => data.json()) // Ici on récupère des données brutes au format texte pour les transformer en objet de données au format json
+                .then(productApi => { // ici on récupère le produit au format data.json
+                    // console.log(productApi); // On vérifie si le fetch a fonctionné
+                    console.log(productApi.price);
+                    let productPrices = document.querySelectorAll(".price");
+                    for (let productPrice of productPrices) {
+                        productPrice.innerHTML = `${productApi.price} €`;
+                    };
+                })
+                .catch((error) => {
+                    console.log(`ERREUR : ${error}`);
+                });
+        })
     }
     cartItems.insertAdjacentHTML('beforeend', content); // En insérant cette ligne dans la boucle ça me dédoublait les lignes des produits :x
     totalQuantity.insertAdjacentHTML('beforeend', cart.getNumberProduct()); // Idhem
     // totalQuantity.innerHTML = cart.getNumberProduct();
 };
-
-// Récupération du prix depuis l'API
-for (let productCart of cart.cart) {
-    loadConfig().then(data => {
-        config = data;
-        fetch(config.host + `/api/products/${productCart.id}`) // <==>  fetch("http://localhost:3000/api/products/productId")
-            .then(data => data.json()) // Ici on récupère des données brutes au format texte pour les transformer en objet de données au format json
-            .then(productApi => { // ici on récupère la liste de produits au format data.json
-                // console.log(jsonProduct); // On vérifie si le fetch a fonctionné
-                console.log(productApi.price);
-                let productPrices = document.querySelectorAll(".price");
-                for (let productPrice of productPrices) {
-                    productPrice.innerHTML = `${productApi.price} €`;
-                };
-            })
-            .catch((error) => {
-                console.log(`ERREUR : ${error}`);
-            });
-    })
-}
 
 // Suppression d'un produit
 const deleteProducts = document.querySelectorAll(".deleteItem");  // si je la défini avec les autres en haut, ça fonctionne pas !
@@ -96,7 +93,7 @@ for (const deleteBtn of deleteProducts) { // on itère sur un NodeList Object av
 
 // récupération des id/color dans le DOM
 function GetClosestProperties(e) {
-    let id = e.closest("article").getAttribute("data-id");
-    let color = e.closest("article").getAttribute("data-color");
+    let id = e.closest("article").dataset.id;
+    let color = e.closest("article").dataset.color;
     return [id, color];
 };
