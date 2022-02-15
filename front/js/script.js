@@ -6,5 +6,3 @@ ApiManager.init()
                 document.querySelector("#items").insertAdjacentHTML('beforeend', content.join(""));
             })
     })
-
-// ApiManager.getProductById()

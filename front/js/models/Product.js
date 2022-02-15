@@ -8,7 +8,7 @@ class Product {
     }
 
     /**
-     * Generate html card product for Dom
+     * Generate html card product for HomePageDom
      * @returns {string} html card product
      */
     generateCardDom() {
@@ -22,7 +22,7 @@ class Product {
     }
 
     /**
-     * Generate html image + Alt text
+     * Generate html imageTag with Alt text
      * @returns {string} html image product
      */
     generateImageDom() {
@@ -33,8 +33,8 @@ class Product {
      * Generate color option
      * @returns {string} html option for color
      */
-    // generateColorDom() {
-    //     return `<option value="${this.color}">${this.color}</option>`
-    // }
+    generateColorDom() {
+        return `<option value="${this.color}">${this.color}</option>`
+    }
 
 }

@@ -10,7 +10,7 @@ class ApiManager {
 
     /**
      * Call Api to retrieve all products
-     * @returns {[Product]} 
+     * @returns {[Object]} 
      */
     static async getAllProducts() {
         if (this.listProduct == null) {
@@ -24,7 +24,7 @@ class ApiManager {
     /**
      * Call Api to retrieve a Product by his Id
      * @param {String} id product id to retrieve
-     * @returns {Product} 
+     * @returns {Object} 
      */
     static async getProductById(id) {
         let data = await fetch(this.config.host + `/api/products/${id}`);
@@ -35,7 +35,7 @@ class ApiManager {
     /**
      * Method to find a Product by id
      * @param {String} id product id to find
-     * @returns {product.id}
+     * @returns {String}
      */
     static findProductById(id) {
         return this.listProduct.find(product => product.id == id);

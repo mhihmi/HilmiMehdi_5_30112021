@@ -1,66 +1,88 @@
 class Cart {
-    constructor() { // plus besoin de fonction getCart avec le constructeur
+    /**
+     * Build a Cart from LocalStorage with deserialization
+     */
+    constructor() {
         let cart = localStorage.getItem("cart");
-        if (cart == null) { // par défaut getItem retourne un null
-            this.cart = []; // Si le panier n'existe pas encore on l'ajoute à la prop du cart sous forme de array
+        if (cart == null) {
+            this.cart = [];
         } else {
-            this.cart = JSON.parse(cart); // sinon on récupère le panier existant désérialisé (chaîne de caractère => objet)
+            this.cart = JSON.parse(cart);
         }
     }
 
-    save() { // method pour créer un panier, plus besoin de cart en param ! On peut la rename vu qu'on fera cart.save
-        localStorage.setItem("cart", JSON.stringify(this.cart)); // On associe la prop dans la class cart à la clé "cart" et on l'enregistre après l'avoir sérialisé (objet => chaîne de caractères)
+    /**
+     * Save the cart with serialization
+     */
+    save() {
+        localStorage.setItem("cart", JSON.stringify(this.cart));
     }
 
-    add(product) { // method pour ajouter au panier. On peut la rename vu qu'on fera cart.add
-        // let cart = getCart(); // plus besoin, on utilise le panier du constructeur ! ;)
-        let foundProduct = this.cart.find(p => p._id == product._id && p.color == product.color) // on cherche dans le panier si il y a un produit dont l'id et color est identique au produit qu'on veut ajouter (ft find avec la condition p, si il trouve pas d'élément, retourne undefined) 
-        if (foundProduct != undefined) { // si on trouve un produit identique 
-            foundProduct.quantity += product.quantity; // on y ajoute la valeur de l'input
+    /**
+     * Add a product to cart or increase quantity + save cart in LocalStorage
+     * @param {Product} product to add
+     */
+    add(product) {
+        let foundProduct = this.cart.find(p => p._id == product._id && p.color == product.color)
+        if (foundProduct != undefined) {
+            foundProduct.quantity += product.quantity;
         } else {
-            // product.quantity = product.quantity; // sinon on le défini à la quantité indiquée dans l'input !
             product.price = undefined;
             product.colors = undefined;
-            this.cart.push(new Product(product)); // on considère cart comme un tableau => on y ajoute un produit
+            this.cart.push(new Product(product));
         }
-        this.save(); // on enregistre le nouveau panier, plus besoin du param / procédural
+        this.save();
     }
 
-    remove(product) { // method pour retirer du panier. On peut la rename vu qu'on fera cart.remove
-        // let cart = getCart(); // plus besoin, on utilise le panier du constructeur ! ;)
-        this.cart = this.cart.filter(p => p._id != product._id || p.color != product.color); // Un des moyens les plus simples et efficaces de retirer un élément. filter est comme find : travaille sur un array par rapport à une condition qu'on peut inverser. Ici on garde les éléments différents du produit renseigné. Avec un "==" on aurai conservé seulement le produit renseigné.
-        this.save(); // on enregistre le nouveau panier
+    /**
+     * Remove a product from cart + save cart in LocalStorage
+     * @param {Product} product to remove
+     */
+    remove(product) {
+        this.cart = this.cart.filter(p => p._id != product._id || p.color != product.color);
+        this.save();
     }
 
-    changeQuantity(product, quantity) { // method changer la qté de produits
-        // let cart = getCart(); // plus besoin, on utilise le panier du constructeur ! ;)
-        let foundProduct = this.cart.find(p => p._id == product._id && p.color == product.color); // on cherche dans le panier si il y a un produit dont l'id est identique au produit dont on veut changer la quantité
-        if (foundProduct != undefined) { // si on trouve un produit identique 
-            foundProduct.quantity += parseFloat(quantity); // On ajoute la qté souhaitée à la qté existante 
-            if (foundProduct.quantity <= 0 || quantity == null) { // si la quantité est <= 0
-                this.remove(foundProduct); // on le retire du panier et on enregistre le panier (cf ft remove)
+    /**
+     * change quantity if product found in Cart or remove it from Cart + save cart
+     * @param {Product} product to change quantity
+     * @param {number} quantity to change
+     */
+    changeQuantity(product, quantity) {
+        let foundProduct = this.cart.find(p => p._id == product._id && p.color == product.color);
+        if (foundProduct != undefined) {
+            foundProduct.quantity += parseFloat(quantity);
+            if (foundProduct.quantity <= 0 || quantity == null) {
+                this.remove(foundProduct);
             } else {
-                this.save(); // Sinon On enregistre le nouveau panier
+                this.save();
             }
         }
     }
 
+    /**
+     * Get all cart products quantity
+     * @returns {int} Product number in cart
+     */
     getNumberProduct() { // method calculer la qté
-        // let cart = getCart(); // plus besoin, on utilise le panier du constructeur ! ;)
         let number = 0; // on défini une variable = 0
-        for (let product of this.cart) { // on parcours les produits du panier
-            number += product.quantity; // on ajoute les qtés de chaque produit à la variable number
+        for (let product of this.cart) {
+            number += product.quantity;
         }
-        return number; // on retourne cette variable !
+        return number;
     }
 
-    getTotalPrice() { // method calculer le prix total
-        // let cart = getCart(); // plus besoin, on utilise le panier du constructeur ! ;)
-        let total = 0; // on défini une variable = 0
-        for (let product of this.cart) { // on parcours les produits du panier
-            total += product.quantity * product.price; // on ajoute à la var total le produit qté*prix de chaque produit
+    /**
+     * Get total price of the entire cart
+     * @returns {int} Price
+     */
+    getTotalPrice() {
+
+        let total = 0;
+        for (let product of this.cart) {
+            total += product.quantity * product.price;
         }
-        return total; // on retourne cette variable !
+        return total;
     }
 }
 
