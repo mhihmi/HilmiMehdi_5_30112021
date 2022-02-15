@@ -1,19 +1,3 @@
-/**
- * Les fonctions du panier
- */
-
-// class Product {
-//     constructor(jsonProduct) {
-//         jsonProduct && Object.assign(this, jsonProduct);
-//         // Assigne toutes les prop récupérées au format Json à ma class Product
-//         // Sinon il faudrait utiliser par ex. :
-//         // this.id = jsonProduct.id
-//     }
-// }
-
-// Création d'une class pour gérer le panier, un modèle.
-// Plus de performances, moins d'appels à la ft getCart(), on appel une seule fois le panier !
-
 class Cart {
     constructor() { // plus besoin de fonction getCart avec le constructeur
         let cart = localStorage.getItem("cart");
@@ -35,7 +19,9 @@ class Cart {
             foundProduct.quantity += product.quantity; // on y ajoute la valeur de l'input
         } else {
             // product.quantity = product.quantity; // sinon on le défini à la quantité indiquée dans l'input !
-            this.cart.push(product); // on considère cart comme un tableau => on y ajoute un produit
+            product.price = undefined;
+            product.colors = undefined;
+            this.cart.push(new Product(product)); // on considère cart comme un tableau => on y ajoute un produit
         }
         this.save(); // on enregistre le nouveau panier, plus besoin du param / procédural
     }
