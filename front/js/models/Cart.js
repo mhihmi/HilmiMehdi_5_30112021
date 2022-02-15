@@ -30,11 +30,11 @@ class Cart {
 
     add(product) { // method pour ajouter au panier. On peut la rename vu qu'on fera cart.add
         // let cart = getCart(); // plus besoin, on utilise le panier du constructeur ! ;)
-        let foundProduct = this.cart.find(p => p.id == product.id && p.color == product.color) // on cherche dans le panier si il y a un produit dont l'id et color est identique au produit qu'on veut ajouter (ft find avec la condition p, si il trouve pas d'élément, retourne undefined) 
+        let foundProduct = this.cart.find(p => p._id == product._id && p.color == product.color) // on cherche dans le panier si il y a un produit dont l'id et color est identique au produit qu'on veut ajouter (ft find avec la condition p, si il trouve pas d'élément, retourne undefined) 
         if (foundProduct != undefined) { // si on trouve un produit identique 
-            foundProduct.quantity += parseFloat(quantity.value); // on y ajoute la valeur de l'input
+            foundProduct.quantity += product.quantity; // on y ajoute la valeur de l'input
         } else {
-            product.quantity = parseFloat(quantity.value); // sinon on le défini à la quantité indiquée dans l'input !
+            // product.quantity = product.quantity; // sinon on le défini à la quantité indiquée dans l'input !
             this.cart.push(product); // on considère cart comme un tableau => on y ajoute un produit
         }
         this.save(); // on enregistre le nouveau panier, plus besoin du param / procédural
@@ -42,13 +42,13 @@ class Cart {
 
     remove(product) { // method pour retirer du panier. On peut la rename vu qu'on fera cart.remove
         // let cart = getCart(); // plus besoin, on utilise le panier du constructeur ! ;)
-        this.cart = this.cart.filter(p => p.id != product.id || p.color != product.color); // Un des moyens les plus simples et efficaces de retirer un élément. filter est comme find : travaille sur un array par rapport à une condition qu'on peut inverser. Ici on garde les éléments différents du produit renseigné. Avec un "==" on aurai conservé seulement le produit renseigné.
+        this.cart = this.cart.filter(p => p._id != product._id || p.color != product.color); // Un des moyens les plus simples et efficaces de retirer un élément. filter est comme find : travaille sur un array par rapport à une condition qu'on peut inverser. Ici on garde les éléments différents du produit renseigné. Avec un "==" on aurai conservé seulement le produit renseigné.
         this.save(); // on enregistre le nouveau panier
     }
 
     changeQuantity(product, quantity) { // method changer la qté de produits
         // let cart = getCart(); // plus besoin, on utilise le panier du constructeur ! ;)
-        let foundProduct = this.cart.find(p => p.id == product.id && p.color == product.color); // on cherche dans le panier si il y a un produit dont l'id est identique au produit dont on veut changer la quantité
+        let foundProduct = this.cart.find(p => p._id == product._id && p.color == product.color); // on cherche dans le panier si il y a un produit dont l'id est identique au produit dont on veut changer la quantité
         if (foundProduct != undefined) { // si on trouve un produit identique 
             foundProduct.quantity += parseFloat(quantity); // On ajoute la qté souhaitée à la qté existante 
             if (foundProduct.quantity <= 0 || quantity == null) { // si la quantité est <= 0
