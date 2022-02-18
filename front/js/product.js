@@ -1,4 +1,3 @@
-// Créons un panier au chargement de la page (cf class dans cartfunctions.js)
 // document.addEventListener('DOMContentLoaded', function () {
 let cart = new Cart();
 // });
@@ -28,16 +27,13 @@ ApiManager.init()
                 // let content = product.colors.map(product => product.generateColorDom());
                 // document.querySelector("#colors").insertAdjacentHTML("beforeend", content.join(""));
 
-                // Event Listener on "Ajouter au panier" Button + Message for Wrong input
-                function removeWarning() {
-                    warning.remove()
-                }
+                // Event Listener on "Ajouter au panier" Button + Warning Message
                 document.querySelector("#addToCart").addEventListener("click", function () {
                     if (document.querySelector("#colors").value == "" || document.querySelector("#quantity").value <= 0 || document.querySelector("#quantity").value > 100) {
                         let warning = document.createElement("p");
                         warning.innerHTML = "Merci d'indiquer une couleur et une quantité comprise entre 1 et 100";
                         document.querySelector(".item__content__settings").appendChild(warning);
-                        setTimeout(removeWarning(), 3000);
+                        setTimeout(function () { warning.remove() }, 3000);
                     } else {
                         product.quantity = parseInt(document.querySelector("#quantity").value);
                         product.color = document.querySelector("#colors").value;
@@ -49,6 +45,3 @@ ApiManager.init()
                 console.log(`ERREUR : ${error}`);
             })
     })
-
-
-

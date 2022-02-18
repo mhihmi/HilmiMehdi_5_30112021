@@ -1,6 +1,6 @@
 class Cart {
     /**
-     * Build a Cart from LocalStorage with deserialization
+     * Build Empty Array or Cart from LocalStorage (with deserialization)
      */
     constructor() {
         let cart = localStorage.getItem("cart");
@@ -64,8 +64,8 @@ class Cart {
      * Get all cart products quantity
      * @returns {int} Product number in cart
      */
-    getNumberProduct() { // method calculer la qté
-        let number = 0; // on défini une variable = 0
+    getNumberProduct() {
+        let number = 0;
         for (let product of this.cart) {
             number += product.quantity;
         }
@@ -73,23 +73,26 @@ class Cart {
     }
 
     /**
-     * Get total price of the entire cart
+     * Get total price of the entire cart with Api Prices
      * @returns {int} Price
      */
     getTotalPrice() {
-
         let total = 0;
         for (let product of this.cart) {
-            total += product.quantity * product.price;
+            total += product.quantity * ApiManager.findProductPriceById(product._id);
         }
         return total;
     }
+
+    /**
+     * Get product ID from cart 
+     * @returns {[string]} Array of ID or Empty Array
+     */
+    getListProductId() {
+        let selectedProductID = [];
+        for (let product of this.cart) {
+            selectedProductID.push(product._id)
+        }
+        return selectedProductID;
+    }
 }
-
-
-
-
-
-
-
-

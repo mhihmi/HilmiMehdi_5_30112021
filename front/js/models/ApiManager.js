@@ -22,7 +22,7 @@ class ApiManager {
     }
 
     /**
-     * Call Api to retrieve a Product by his Id
+     * Call Api to retrieve a Product by his Id and create an objet of it
      * @param {String} id product id to retrieve
      * @returns {Object} 
      */
@@ -38,6 +38,16 @@ class ApiManager {
      * @returns {String}
      */
     static findProductById(id) {
-        return this.listProduct.find(product => product.id == id);
+        return this.listProduct.find(product => product._id == id);
+    }
+
+    /**
+         * Method to find a Product Price by id
+         * @param {String} id product id to find
+         * @returns {Int} Price Number
+         */
+    static findProductPriceById(id) {
+        let selectedId = this.listProduct.find(product => product._id == id);
+        return selectedId.price;
     }
 }
