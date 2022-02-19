@@ -39,9 +39,21 @@ ApiManager.init()
                         product.color = document.querySelector("#colors").value;
                         cart.add(product);
                     }
+                    badgeDisplay();
+                    location.reload();
                 });
             })
             .catch((error) => {
                 console.log(`ERREUR : ${error}`);
             })
     })
+
+function badgeDisplay() {
+    if (cart == null) {
+        document.querySelector("#numberInCart").classList.remove('.displayBadge')
+    } else {
+        document.querySelector("#numberInCart").classList.add('.displayBadge')
+        document.querySelector("#numberInCart").value = cart.getNumberProduct()
+    }
+}
+badgeDisplay();    

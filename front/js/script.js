@@ -6,3 +6,14 @@ ApiManager.init()
                 document.querySelector("#items").insertAdjacentHTML('beforeend', content.join(""));
             })
     })
+
+let cart = new Cart();
+function badgeDisplay() {
+    if (cart == null) {
+        document.querySelector("#numberInCart").classList.remove('.displayBadge')
+    } else {
+        document.querySelector("#numberInCart").classList.add('.displayBadge')
+        document.querySelector("#numberInCart").value = cart.getNumberProduct()
+    }
+}
+badgeDisplay();

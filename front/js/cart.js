@@ -52,6 +52,7 @@ ApiManager.init()
                             articleToRemove.remove();
                             cart.remove(product);
                             totalOrder();
+                            badgeDisplay()
                             location.reload();
                         })
                     });
@@ -68,6 +69,7 @@ ApiManager.init()
                         quantityInput.addEventListener("change", () => {
                             cart.changeQuantity(product, quantityInput.value)
                             totalOrder();
+                            badgeDisplay()
                             location.reload();
                         })
                     })
@@ -80,3 +82,13 @@ ApiManager.init()
 
 
 // cart.remove({_id:"055743915a544fde83cfdfc904935ee7",color:"Red"})
+// Badge on cart button display
+function badgeDisplay() {
+    if (cart == null) {
+        document.querySelector("#numberInCart").classList.remove('.displayBadge')
+    } else {
+        document.querySelector("#numberInCart").classList.add('.displayBadge')
+        document.querySelector("#numberInCart").value = cart.getNumberProduct()
+    }
+}
+badgeDisplay();
