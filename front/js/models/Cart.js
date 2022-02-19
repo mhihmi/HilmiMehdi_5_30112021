@@ -44,14 +44,14 @@ class Cart {
     }
 
     /**
-     * change quantity if product found in Cart or remove it from Cart + save cart
+     * change quantity if product found in Cart or remove it from Cart if null + save cart
      * @param {Product} product to change quantity
      * @param {number} quantity to change
      */
     changeQuantity(product, quantity) {
         let foundProduct = this.cart.find(p => p._id == product._id && p.color == product.color);
         if (foundProduct != undefined) {
-            foundProduct.quantity += parseFloat(quantity);
+            foundProduct.quantity = parseInt(quantity);
             if (foundProduct.quantity <= 0 || quantity == null) {
                 this.remove(foundProduct);
             } else {
@@ -62,7 +62,7 @@ class Cart {
 
     /**
      * Get all cart products quantity
-     * @returns {int} Product number in cart
+     * @returns {int} int Product number in cart
      */
     getNumberProduct() {
         let number = 0;
@@ -74,7 +74,7 @@ class Cart {
 
     /**
      * Get total price of the entire cart with Api Prices
-     * @returns {int} Price
+     * @returns {int} int total Cart Price
      */
     getTotalPrice() {
         let total = 0;
