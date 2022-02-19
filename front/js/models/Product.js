@@ -41,7 +41,7 @@ class Product {
      * Generate Html Cart Items on Cart Page
      */
     generateCartItem() {
-        return `<article class="cart__item" data-id="${this.id}" data-color="${this.color}">
+        return `<article class="cart__item" data-id="${this._id}" data-color="${this.color}">
                                                                 <div class="cart__item__img">
                                                                 <img src="${this.imageUrl}" alt="${this.altTxt}">
                                                                 </div>

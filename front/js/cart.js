@@ -23,6 +23,30 @@ ApiManager.init()
                     }
                     document.querySelector("#totalQuantity").insertAdjacentHTML('beforeend', cart.getNumberProduct());
                     document.querySelector("#totalPrice").insertAdjacentHTML('beforeend', cart.getTotalPrice());
+                    // Appel à une method de la class Cart qui fait elle même appel à une method de la class ApiManager ?
+
+                    // Delete a Product from Cart
+                    const deleteButtons = document.querySelectorAll(".deleteItem");
+                    // console.log(deleteButtons);
+                    // récupération des id / color dans le DOM
+                    function getClosestProperties(e) {
+                        let id = e.closest("article").dataset.id;
+                        let color = e.closest("article").dataset.color;
+                        return [id, color];
+                    };
+
+                    deleteButtons.forEach(deleteBtn => {
+                        let cartProduct = getClosestProperties(deleteBtn);
+                        let articleToRemove = deleteBtn.closest("article");
+                        let product = {
+                            _id: `${cartProduct[0]}`,
+                            color: `${cartProduct[1]}`
+                        }
+                        deleteBtn.addEventListener("click", () => {
+                            articleToRemove.remove();
+                            cart.remove(product);
+                        })
+                    });
                 };
             })
             .catch((error) => {
@@ -30,27 +54,5 @@ ApiManager.init()
             })
     })
 
-// Delete a Product from Cart
-const deleteButtons = document.querySelectorAll(".deleteItem");
 
-// récupération des id/color dans le DOM
-// function GetClosestProperties(e) {
-//     let _id = e.closest("article").dataset.id;
-//     let color = e.closest("article").dataset.color;
-//     return [_id, color];
-// };
-
-// for (const deleteBtn of deleteButtons) {
-//     let cartProduct = GetClosestProperties(deleteBtn);
-//     let articleToRemove = deleteBtn.closest("article");
-//     product = {
-//         _id: `${cartProduct[0]}`,
-//         color: `${cartProduct[1]}`
-//     }
-//     deleteBtn.addEventListener("click", () => {
-//         // dataID = deleteBtn.closest("article").getAttribute("data-id");
-//         cart.remove(product);
-//         // articleToRemove.remove();
-//     })
-// };
 // cart.remove({_id:"055743915a544fde83cfdfc904935ee7",color:"Red"})
