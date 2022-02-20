@@ -42,12 +42,22 @@ class ApiManager {
     }
 
     /**
-         * Method to find a Product Price by id
-         * @param {String} id product id to find
-         * @returns {Int} Price Number
-         */
+    * Method to find a Product Price by id
+    * @param {String} id product id to find
+    * @returns {Int} Price Number
+    */
     static findProductPriceById(id) {
         let selectedId = this.listProduct.find(product => product._id == id);
         return selectedId.price;
+    }
+
+    /**
+   * Call Api to post an order
+   * @param {String} id product id to retrieve
+   * @returns {Object} 
+   */
+    static async postOrder() {
+        let data = await fetch(this.config.host + `/api/products/order`,);
+        let product = await data.json();
     }
 }

@@ -40,7 +40,6 @@ ApiManager.init()
                         cart.add(product);
                     }
                     badgeDisplay();
-                    location.reload();
                 });
             })
             .catch((error) => {
@@ -48,6 +47,7 @@ ApiManager.init()
             })
     })
 
+// Badge on cart button display
 function badgeDisplay() {
     if (cart == null) {
         document.querySelector("#numberInCart").classList.remove('.displayBadge')

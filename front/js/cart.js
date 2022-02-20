@@ -3,6 +3,7 @@ let cart = new Cart();
 // });
 
 let cartIDs = cart.getListProductId();
+// console.log(cartIDs);
 
 //Call API to get Price Information
 ApiManager.init()
@@ -24,9 +25,12 @@ ApiManager.init()
                     }
 
                     // Display Total Price and articles
+                    document.querySelector("#totalQuantity").insertAdjacentHTML('beforeend', cart.getNumberProduct());
+                    document.querySelector("#totalPrice").insertAdjacentHTML('beforeend', cart.getTotalPrice());
+
                     function totalOrder() {
-                        document.querySelector("#totalQuantity").insertAdjacentHTML('beforeend', cart.getNumberProduct());
-                        document.querySelector("#totalPrice").insertAdjacentHTML('beforeend', cart.getTotalPrice());
+                        document.querySelector("#totalQuantity").innerHTML = cart.getNumberProduct();
+                        document.querySelector("#totalPrice").innerHTML = cart.getTotalPrice();
                         // Appel à une method de la class Cart qui fait elle même appel à une method de la class ApiManager ?
                     }
                     totalOrder();
@@ -53,7 +57,6 @@ ApiManager.init()
                             cart.remove(product);
                             totalOrder();
                             badgeDisplay()
-                            location.reload();
                         })
                     });
 
@@ -70,7 +73,7 @@ ApiManager.init()
                             cart.changeQuantity(product, quantityInput.value)
                             totalOrder();
                             badgeDisplay()
-                            location.reload();
+                            // location.reload();
                         })
                     })
                 };
@@ -80,8 +83,8 @@ ApiManager.init()
             })
     })
 
-
 // cart.remove({_id:"055743915a544fde83cfdfc904935ee7",color:"Red"})
+
 // Badge on cart button display
 function badgeDisplay() {
     if (cart == null) {
@@ -92,3 +95,42 @@ function badgeDisplay() {
     }
 }
 badgeDisplay();
+
+// Form Validation
+const form = document.querySelector(".cart__order__form");
+const formInputs = form.querySelectorAll("input");
+console.log(formInputs);
+
+const patterns = {
+    firstName: /\b([A-ZÀ-ÿ][-,a-z. ']+[ ]*)+/g, // First Letter Caps, - ' and spaces authorized
+    lastName: /^[A-Z]*$/g,  // All Caps Letters
+    address: /^[a-zA-ZÀ-ÿ0-9\s,'-]*$/g,
+    city: /^[A-Z]+(?:[\s-][A-Z]+)*$/g, // Full Caps
+    email: /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})*$/
+}
+
+const message = {
+    firstName: "Première lettre en capitale",
+    lastName: "Nom de famille capitales",
+    address: "Numéro + nom de la rue/boulevard/impasse etc...",
+    city: "Nom de la ville entièrement en capitales",
+    email: "Merci de renseigner une adresse mail valide !",
+}
+
+function validate(field, regex) {
+    if (regex.test(field.value)) {
+        field.className = "valid";
+        field.setCustomValidity("")
+    } else {
+        field.className = "invalid";
+        field.setCustomValidity(message[field.attributes.name.value])
+    }
+}
+
+formInputs.forEach((input) => {
+    input.addEventListener("change", (e) => {
+        e.preventDefault();
+        validate(e.target, patterns[e.target.attributes.name.value]);
+    });
+})
+
