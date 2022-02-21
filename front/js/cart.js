@@ -1,9 +1,10 @@
 // document.addEventListener('DOMContentLoaded', function () {
-let cart = new Cart();
-// });
+// if (window.location.href.indexOf("cart") > -1) {
+// }
 
-let cartIDs = cart.getListProductId();
-// console.log(cartIDs);
+let cart = new Cart();
+
+// });
 
 //Call API to get Price Information
 ApiManager.init()
@@ -79,7 +80,7 @@ ApiManager.init()
                 };
             })
             .catch((error) => {
-                console.log(`ERREUR : ${error}`);
+                console.log(`ERROR Get Product Price: ${error}`);
             })
     })
 
@@ -87,10 +88,10 @@ ApiManager.init()
 
 // Badge on cart button display
 function badgeDisplay() {
-    if (cart == null) {
-        document.querySelector("#numberInCart").classList.remove('.displayBadge')
+    if (cart == null || cart.cart == 0) {
+        document.querySelector("#numberInCart").classList.remove('displayBadge')
     } else {
-        document.querySelector("#numberInCart").classList.add('.displayBadge')
+        document.querySelector("#numberInCart").classList.add('displayBadge')
         document.querySelector("#numberInCart").value = cart.getNumberProduct()
     }
 }
@@ -99,7 +100,7 @@ badgeDisplay();
 // Form Validation
 const form = document.querySelector(".cart__order__form");
 const formInputs = form.querySelectorAll("input");
-console.log(formInputs);
+// console.log(formInputs);
 
 const patterns = {
     firstName: /\b([A-ZÀ-ÿ][-,a-z. ']+[ ]*)+/g, // First Letter Caps, - ' and spaces authorized
@@ -134,3 +135,48 @@ formInputs.forEach((input) => {
     });
 })
 
+// let cartIDs = cart.getListProductId();
+// console.log(cartIDs);
+
+//Call API on Button Click event to Post Order and get OrderId
+form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const products = cart.getListProductId();
+
+    const contact = {
+        firstName: this.firstName.value,
+        lastName: this.lastName.value,
+        address: this.address.value,
+        city: this.city.value,
+        email: this.email.value
+    };
+
+    const order = {
+        contact,
+        products,
+    };
+
+    const postOptions = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(order)
+    };
+
+    if (form.reportValidity()) {
+        ApiManager.init()
+            .then(() => {
+                ApiManager.postOrder(postOptions)
+                    .then((orderId) => {
+                        // localStorage.setItem("orderId", JSON.stringify(orderId));
+                        console.log(orderId);
+                        document.location.href = `confirmation.html?id=${orderId}`;
+                    })
+                    .catch((error) => {
+                        console.log(`ERROR Post Order: ${error}`);
+                    })
+            })
+    }
+})

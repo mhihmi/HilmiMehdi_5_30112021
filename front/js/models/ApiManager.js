@@ -53,11 +53,12 @@ class ApiManager {
 
     /**
    * Call Api to post an order
-   * @param {String} id product id to retrieve
-   * @returns {Object} 
+   * @param {Object} Object with method, headers and body
+   * @returns {String} OrderId
    */
-    static async postOrder() {
-        let data = await fetch(this.config.host + `/api/products/order`,);
-        let product = await data.json();
+    static async postOrder(options) {
+        let data = await fetch(this.config.host + `/api/products/order`, options);
+        let OrderId = await data.json();
+        return OrderId.orderId;
     }
 }

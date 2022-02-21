@@ -49,10 +49,10 @@ ApiManager.init()
 
 // Badge on cart button display
 function badgeDisplay() {
-    if (cart == null) {
-        document.querySelector("#numberInCart").classList.remove('.displayBadge')
+    if (cart == null || cart.cart == 0) {
+        document.querySelector("#numberInCart").classList.remove('displayBadge')
     } else {
-        document.querySelector("#numberInCart").classList.add('.displayBadge')
+        document.querySelector("#numberInCart").classList.add('displayBadge')
         document.querySelector("#numberInCart").value = cart.getNumberProduct()
     }
 }
