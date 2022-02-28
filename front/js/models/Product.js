@@ -39,6 +39,7 @@ class Product {
 
     /**
      * Generate Html Cart Items on Cart Page
+     * @returns {string} html cart item
      */
     generateCartItem() {
         return `<article class="cart__item" data-id="${this._id}" data-color="${this.color}">

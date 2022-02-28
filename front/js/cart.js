@@ -156,7 +156,7 @@ form.addEventListener("submit", (e) => {
         contact,
         products,
     };
-
+    console.log(order)
     const postOptions = {
         method: "POST",
         headers: {

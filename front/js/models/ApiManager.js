@@ -1,3 +1,4 @@
+/** Class to Manage API Calls. */
 class ApiManager {
     static listProduct = null;
 
@@ -10,7 +11,7 @@ class ApiManager {
 
     /**
      * Call Api to retrieve all products
-     * @returns {[Object]} 
+     * @returns {[Object]} Array of Product Objects
      */
     static async getAllProducts() {
         if (this.listProduct == null) {
@@ -35,7 +36,7 @@ class ApiManager {
     /**
      * Method to find a Product by id
      * @param {String} id product id to find
-     * @returns {String}
+     * @returns {Object} Object with all product keys
      */
     static findProductById(id) {
         return this.listProduct.find(product => product._id == id);
@@ -44,7 +45,7 @@ class ApiManager {
     /**
     * Method to find a Product Price by id
     * @param {String} id product id to find
-    * @returns {Int} Price Number
+    * @returns {Int} Price Number of the product Id
     */
     static findProductPriceById(id) {
         let selectedId = this.listProduct.find(product => product._id == id);
