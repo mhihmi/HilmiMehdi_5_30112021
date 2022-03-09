@@ -28,7 +28,7 @@ The server should run on `localhost` with default port `3000`. If the server run
 > Dynamiser un site web avec Javascript Vanilla, utiliser le LocalStorage et une API - Parcours Openclassrooms Développeur Web
 
 <p align="center">
-  <img src="https://github.com/mhihmi/HilmiMehdi_5_30112021/blob/main/front/images/logo.png"/>
+  <img src="https://github.com/mhihmi/HilmiMehdi_5_30112021/blob/main/front/images/logo.png" width="50%"/>
 </p>
 
 ## Scénario :
