@@ -1,0 +1,2 @@
+# Exclude Doc from Stats
+front/docs/** linguist-documentation
