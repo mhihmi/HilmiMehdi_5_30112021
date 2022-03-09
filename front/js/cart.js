@@ -1,3 +1,5 @@
+//@ts-check
+
 // document.addEventListener('DOMContentLoaded', function () {
 // if (window.location.href.indexOf("cart") > -1) {
 // }
@@ -36,7 +38,12 @@ ApiManager.init()
                     }
                     totalOrder();
 
-                    // Get Closest Id/Color from each DOM article
+                    /**
+                     * @property {function} getClosestProperties Function to Get Closest Id/Color from each DOM article
+                     * @global
+                     * @param {HTMLElement} node - the html element we want the closest Id & Color 
+                     * @returns {Array} Array with closest id and color of targeted element
+                     */
                     function getClosestProperties(e) {
                         let id = e.closest("article").dataset.id;
                         let color = e.closest("article").dataset.color;
@@ -86,7 +93,10 @@ ApiManager.init()
 
 // cart.remove({_id:"055743915a544fde83cfdfc904935ee7",color:"Red"})
 
-// Badge on cart button display
+/**
+ * @property {function} badgeDisplay Display Badge on cart button 
+ * @returns void
+ */
 function badgeDisplay() {
     if (cart == null || cart.cart == 0) {
         document.querySelector("#numberInCart").classList.remove('displayBadge')
@@ -118,6 +128,12 @@ const message = {
     email: "Merci de renseigner une adresse mail valide !",
 }
 
+/**
+ * @property {function} validate Function to validate input with Regex
+ * @param {HTMLElement} field Targeted Element to control  
+ * @param {RegExp} regex Regex rule
+ * @returns void
+ */
 function validate(field, regex) {
     if (regex.test(field.value)) {
         field.className = "valid";
@@ -144,6 +160,10 @@ form.addEventListener("submit", (e) => {
 
     const products = cart.getListProductId();
 
+    /**
+     * Contact Informations
+     * @type {{firstName: string, lastName: string, address: string|number, city: string, email: string}}
+     */
     const contact = {
         firstName: this.firstName.value,
         lastName: this.lastName.value,
@@ -156,7 +176,9 @@ form.addEventListener("submit", (e) => {
         contact,
         products,
     };
-    console.log(order)
+
+    console.log(order);
+
     const postOptions = {
         method: "POST",
         headers: {

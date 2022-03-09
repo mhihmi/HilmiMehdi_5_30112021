@@ -9,7 +9,6 @@ ApiManager.init()
 
 let cart = new Cart();
 
-// Badge on cart button display
 function badgeDisplay() {
     if (cart == null || cart.cart == 0) {
         document.querySelector("#numberInCart").classList.remove('displayBadge')

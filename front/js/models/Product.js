@@ -1,14 +1,14 @@
 class Product {
     /**
      * Build an object from json
-     * @param {Object} JsonProduct 
+     * @param {Object} JsonProduct JsonProduct Object
      */
     constructor(JsonProduct) {
         Object.assign(this, JsonProduct);
     }
 
     /**
-     * Generate html card product for HomePageDom
+     * @property {method} generateCardDom Generate html card product on HomePageDom
      * @returns {string} html card product
      */
     generateCardDom() {
@@ -22,7 +22,7 @@ class Product {
     }
 
     /**
-     * Generate html imageTag with Alt text
+     * @property {method} generateImageDom Generate html imageTag with Alt text on product page
      * @returns {string} html image product
      */
     generateImageDom() {
@@ -30,15 +30,15 @@ class Product {
     }
 
     /**
-     * Generate color option
-     * @returns {string} html option for color
+     * @property {method} generateColorDom Generate color option for color choice on product page
+     * @returns {string} html option 
      */
     generateColorDom() {
         return `<option value="${this.color}">${this.color}</option>`
     }
 
     /**
-     * Generate Html Cart Items on Cart Page
+     * @property {method} generateCartItem Generate Html Cart Items on Cart Page
      * @returns {string} html cart item
      */
     generateCartItem() {
