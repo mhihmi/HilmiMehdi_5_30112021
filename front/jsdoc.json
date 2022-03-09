@@ -1,0 +1,22 @@
+{
+    "source": {
+        "includePattern": ".+\\.js(doc|x)?$",
+        "include": [
+            "js"
+        ],
+        "exclude": "(nodes_modules/|docs)"
+    },
+    "recurseDepth": 10,
+    "plugins": [
+        "plugins/markdown"
+    ],
+    "templates": {
+        "cleverLinks": true,
+        "monospaceLinks": true
+    },
+    "opts": {
+        "recurse": true,
+        "destination": "./docs/",
+        "encoding": "utf8"
+    }
+}
