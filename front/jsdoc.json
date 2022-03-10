@@ -18,6 +18,10 @@
         "recurse": true,
         "destination": "./docs/",
         "encoding": "utf8",
-        "readme": "../README.md"
+        "readme": "../README.md",
+        "template": "node_modules/clean-jsdoc-theme",
+        "theme_opts": {
+            "theme": "dark"
+        }
     }
 }
