@@ -4,11 +4,9 @@
  * @see <a href="https://github.com/mhihmi/HilmiMehdi_5_30112021" rel="noopener noreferrer" target="_blank"> Repo Git </a>
  */
 
-// document.addEventListener('DOMContentLoaded', function () {
 let cart = new Cart();
-// });
 
-// Récupération de l'id dans l'URL
+// Get id from URL
 const usp = new URLSearchParams(window.location.search);
 const productID = usp.get("id");
 
@@ -28,10 +26,6 @@ ApiManager.init()
                     option.value = `${color}`;
                     document.querySelector("#colors").appendChild(option);
                 }
-
-                // J'ai essayé ainsi mais fonctionne po !
-                // let content = product.colors.map(product => product.generateColorDom());
-                // document.querySelector("#colors").insertAdjacentHTML("beforeend", content.join(""));
 
                 // Event Listener on "Ajouter au panier" Button + Warning Message
                 document.querySelector("#addToCart").addEventListener("click", function () {

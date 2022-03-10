@@ -4,20 +4,13 @@
  * @see <a href="https://github.com/mhihmi/HilmiMehdi_5_30112021" rel="noopener noreferrer" target="_blank"> Repo Git </a>
  */
 
-// document.addEventListener('DOMContentLoaded', function () {
-// if (window.location.href.indexOf("cart") > -1) {
-// }
-
 let cart = new Cart();
-
-// });
 
 //Call API to get Price Information
 ApiManager.init()
     .then(() => {
         ApiManager.getAllProducts()
             .then(() => {
-                // console.log(listProduct);
                 if (cart == null) {
                     let message = document.createElement("p");
                     message.innerHTML = "Votre panier est vide !";
@@ -38,7 +31,6 @@ ApiManager.init()
                     function totalOrder() {
                         document.querySelector("#totalQuantity").innerHTML = cart.getNumberProduct();
                         document.querySelector("#totalPrice").innerHTML = cart.getTotalPrice();
-                        // Appel à une method de la class Cart qui fait elle même appel à une method de la class ApiManager ?
                     }
                     totalOrder();
 
@@ -85,7 +77,6 @@ ApiManager.init()
                             cart.changeQuantity(product, quantityInput.value)
                             totalOrder();
                             badgeDisplay()
-                            // location.reload();
                         })
                     })
                 };
@@ -94,8 +85,6 @@ ApiManager.init()
                 console.log(`ERROR Get Product Price: ${error}`);
             })
     })
-
-// cart.remove({_id:"055743915a544fde83cfdfc904935ee7",color:"Red"})
 
 /**
  * @property {function} badgeDisplay Display Badge on cart button 
@@ -114,7 +103,6 @@ badgeDisplay();
 // Form Validation
 const form = document.querySelector(".cart__order__form");
 const formInputs = form.querySelectorAll("input");
-// console.log(formInputs);
 
 const patterns = {
     firstName: /\b([A-ZÀ-ÿ][-,a-z. ']+[ ]*)+/g, // First Letter Caps, - ' and spaces authorized
@@ -153,9 +141,6 @@ formInputs.forEach((input) => {
         validate(e.target, patterns[e.target.attributes.name.value]);
     });
 })
-
-// let cartIDs = cart.getListProductId();
-// console.log(cartIDs);
 
 //Call API on Button Click event to Post Order and get OrderId
 form.addEventListener("submit", (e) => {
