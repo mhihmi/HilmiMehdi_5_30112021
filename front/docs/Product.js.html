@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: Product.js</title>
+    <title>JSDoc: Source: product.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: Product.js</h1>
+    <h1 class="page-title">Source: product.js</h1>
 
     
 
@@ -26,73 +26,70 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>class Product {
-    /**
-     * Build an object from json
-     * @param {Object} JsonProduct JsonProduct Object
-     */
-    constructor(JsonProduct) {
-        Object.assign(this, JsonProduct);
-    }
+            <pre class="prettyprint source linenums"><code>/**
+ * @file product.js is for product page : to display product information getting Id in URL and adding it to Cart with color &amp; quantity 
+ * @author Medivix
+ * @see &lt;a href="https://github.com/mhihmi/HilmiMehdi_5_30112021" rel="noopener noreferrer" target="_blank"> Repo Git &lt;/a>
+ */
 
-    /**
-     * Generate html card product for HomePageDom
-     * @returns {string} html card product
-     */
-    generateCardDom() {
-        return `&lt;a href="./product.html?id=${this._id}">
-                                  &lt;article>
-                                 &lt;img src="${this.imageUrl}" alt="${this.altTxt}">
-                                  &lt;h3 class="productName">${this.name}&lt;/h3>
-                                 &lt;p class="productDescription">${this.description}&lt;/p>
-                                 &lt;/article>
-                             &lt;/a>`
-    }
+// document.addEventListener('DOMContentLoaded', function () {
+let cart = new Cart();
+// });
 
-    /**
-     * Generate html imageTag with Alt text
-     * @returns {string} html image product
-     */
-    generateImageDom() {
-        return `&lt;img src="${this.imageUrl}" alt="${this.altTxt}">`
-    }
+// Récupération de l'id dans l'URL
+const usp = new URLSearchParams(window.location.search);
+const productID = usp.get("id");
 
-    /**
-     * Generate color option
-     * @returns {string} html option for color
-     */
-    generateColorDom() {
-        return `&lt;option value="${this.color}">${this.color}&lt;/option>`
-    }
+ApiManager.init()
+    .then(() => {
+        ApiManager.getProductById(productID)
+            .then(product => {
 
-    /**
-     * Generate Html Cart Items on Cart Page
-     * @returns {string} html cart item
-     */
-    generateCartItem() {
-        return `&lt;article class="cart__item" data-id="${this._id}" data-color="${this.color}">
-                                                                &lt;div class="cart__item__img">
-                                                                &lt;img src="${this.imageUrl}" alt="${this.altTxt}">
-                                                                &lt;/div>
-                                                                &lt;div class="cart__item__content">
-                                                                &lt;div class="cart__item__content__description">
-                                                                    &lt;h2>${this.name}&lt;/h2>
-                                                                    &lt;p>${this.color}&lt;/p>
-                                                                    &lt;p>${this.price} €&lt;/p>
-                                                                &lt;/div>
-                                                                &lt;div class="cart__item__content__settings">
-                                                                    &lt;div class="cart__item__content__settings__quantity">
-                                                                    &lt;p>Qté : ${this.quantity}&lt;/p>
-                                                                    &lt;input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${this.quantity}">
-                                                                    &lt;/div>
-                                                                    &lt;div class="cart__item__content__settings__delete">
-                                                                    &lt;p class="deleteItem">Supprimer&lt;/p>
-                                                                    &lt;/div>
-                                                                &lt;/div>
-                                                                &lt;/div>
-                                                            &lt;/article>`;
+                document.querySelector(".item__img").insertAdjacentHTML('afterbegin', product.generateImageDom());
+                document.querySelector("#title").insertAdjacentHTML('afterbegin', product.name);
+                document.querySelector("#price").insertAdjacentHTML('afterbegin', product.price);
+                document.querySelector("#description").insertAdjacentHTML('afterbegin', product.description);
+
+                for (let color of product.colors) {
+                    let option = document.createElement("option");
+                    option.append(`${color}`);
+                    option.value = `${color}`;
+                    document.querySelector("#colors").appendChild(option);
+                }
+
+                // J'ai essayé ainsi mais fonctionne po !
+                // let content = product.colors.map(product => product.generateColorDom());
+                // document.querySelector("#colors").insertAdjacentHTML("beforeend", content.join(""));
+
+                // Event Listener on "Ajouter au panier" Button + Warning Message
+                document.querySelector("#addToCart").addEventListener("click", function () {
+                    if (document.querySelector("#colors").value == "" || document.querySelector("#quantity").value &lt;= 0 || document.querySelector("#quantity").value > 100) {
+                        let warning = document.createElement("p");
+                        warning.innerHTML = "Merci d'indiquer une couleur et une quantité comprise entre 1 et 100";
+                        document.querySelector(".item__content__settings").appendChild(warning);
+                        setTimeout(function () { warning.remove() }, 3000);
+                    } else {
+                        product.quantity = parseInt(document.querySelector("#quantity").value);
+                        product.color = document.querySelector("#colors").value;
+                        cart.add(product);
+                    }
+                    badgeDisplay();
+                });
+            })
+            .catch((error) => {
+                console.log(`ERREUR : ${error}`);
+            })
+    })
+
+function badgeDisplay() {
+    if (cart == null || cart.cart == 0) {
+        document.querySelector("#numberInCart").classList.remove('displayBadge')
+    } else {
+        document.querySelector("#numberInCart").classList.add('displayBadge')
+        document.querySelector("#numberInCart").value = cart.getNumberProduct()
     }
-}</code></pre>
+}
+badgeDisplay();    </code></pre>
         </article>
     </section>
 
@@ -102,13 +99,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ApiManager.html">ApiManager</a></li><li><a href="Cart.html">Cart</a></li><li><a href="Product.html">Product</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ApiManager.html">ApiManager</a></li><li><a href="Cart.html">Cart</a></li><li><a href="Product.html">Product</a></li></ul><h3>Global</h3><ul><li><a href="global.html#badgeDisplay">badgeDisplay</a></li><li><a href="global.html#getClosestProperties">getClosestProperties</a></li><li><a href="global.html#loadConfig">loadConfig</a></li><li><a href="global.html#validate">validate</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Wed Mar 09 2022 22:52:14 GMT+0100 (heure normale d’Europe centrale)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Thu Mar 10 2022 01:09:14 GMT+0100 (heure normale d’Europe centrale)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -1,3 +1,9 @@
+/**
+ * @file Cart.js is a Model for all pages needing interactions with LocalStorage/Cart
+ * @author Medivix
+ * @see <a href="https://github.com/mhihmi/HilmiMehdi_5_30112021" rel="noopener noreferrer" target="_blank"> Repo Git </a>
+ */
+
 class Cart {
     /**
      * Build Empty Array or Cart from LocalStorage (with deserialization)

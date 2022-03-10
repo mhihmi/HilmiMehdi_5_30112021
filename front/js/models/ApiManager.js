@@ -1,3 +1,9 @@
+/**
+ * @file ApiManager.js is a Model for all pages sending request to the API
+ * @author Medivix
+ * @see <a href="https://github.com/mhihmi/HilmiMehdi_5_30112021" rel="noopener noreferrer" target="_blank"> Repo Git </a>
+ */
+
 /** Class to Manage API Calls. 
  * @class
  * @hideconstructor

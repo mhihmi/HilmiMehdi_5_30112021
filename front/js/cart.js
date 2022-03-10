@@ -1,5 +1,11 @@
 //@ts-check
 
+/**
+ * @file cart.js is for cart page : to update cart and send form order
+ * @author Medivix
+ * @see <a href="https://github.com/mhihmi/HilmiMehdi_5_30112021" rel="noopener noreferrer" target="_blank"> Repo Git </a>
+ */
+
 // document.addEventListener('DOMContentLoaded', function () {
 // if (window.location.href.indexOf("cart") > -1) {
 // }

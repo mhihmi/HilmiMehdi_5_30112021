@@ -1,3 +1,9 @@
+/**
+ * @file script.js is for homepage : to display product list from API
+ * @author Medivix
+ * @see <a href="https://github.com/mhihmi/HilmiMehdi_5_30112021" rel="noopener noreferrer" target="_blank"> Repo Git </a>
+ */
+
 ApiManager.init()
     .then(() => {
         ApiManager.getAllProducts()

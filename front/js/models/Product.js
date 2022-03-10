@@ -1,3 +1,9 @@
+/**
+ * @file Product.js is a Model for all pages displaying products from the API
+ * @author Medivix
+ * @see <a href="https://github.com/mhihmi/HilmiMehdi_5_30112021" rel="noopener noreferrer" target="_blank"> Repo Git </a>
+ */
+
 class Product {
     /**
      * Build an object from json

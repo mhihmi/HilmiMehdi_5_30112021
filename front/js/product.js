@@ -1,3 +1,9 @@
+/**
+ * @file product.js is for product page : to display product information getting Id in URL and adding it to Cart with color & quantity 
+ * @author Medivix
+ * @see <a href="https://github.com/mhihmi/HilmiMehdi_5_30112021" rel="noopener noreferrer" target="_blank"> Repo Git </a>
+ */
+
 // document.addEventListener('DOMContentLoaded', function () {
 let cart = new Cart();
 // });
