@@ -4,6 +4,9 @@
  * @see <a href="https://github.com/mhihmi/HilmiMehdi_5_30112021" rel="noopener noreferrer" target="_blank"> Repo Git </a>
  */
 
+/**  
+ * Class to Manage Cart from LocalStorage
+*/
 class Cart {
     /**
      * Build Empty Array or Cart from LocalStorage (with deserialization)
@@ -18,14 +21,14 @@ class Cart {
     }
 
     /**
-     * @property {method} save Save the cart with serialization
+     * Save the cart with serialization
      */
     save() {
         localStorage.setItem("cart", JSON.stringify(this.cart));
     }
 
     /**
-     * @property {method} add Add a product to cart without price for security, or increase quantity + save cart in LocalStorage
+     * Add a product to cart without price for security, or increase quantity + save cart in LocalStorage
      * @param {Product} product product to add
      */
     add(product) {
@@ -41,7 +44,7 @@ class Cart {
     }
 
     /**
-     * @property {method} remove Remove a product from cart + save cart in LocalStorage
+     * Remove a product from cart + save cart in LocalStorage
      * @param {Product} product product to remove
      */
     remove(product) {
@@ -50,7 +53,7 @@ class Cart {
     }
 
     /**
-     * @property {method} changeQuantity change quantity if product found in Cart or remove it from Cart if null + save cart
+     * Change quantity if product found in Cart or remove it from Cart if null + save cart
      * @param {Product} product product to change quantity
      * @param {number} quantity quantity to change
      */
@@ -67,7 +70,7 @@ class Cart {
     }
 
     /**
-     * @property {method} getNumberProduct Get all cart products quantity
+     * Get all cart products quantity
      * @returns {int} int Product number in cart
      */
     getNumberProduct() {
@@ -79,7 +82,7 @@ class Cart {
     }
 
     /**
-     * @property {method} getTotalPrice Get total price of the entire cart with Api Prices
+     * Get total price of the entire cart with Api Prices
      * @returns {int} int total Cart Price
      */
     getTotalPrice() {
@@ -91,7 +94,7 @@ class Cart {
     }
 
     /**
-     * @property {method} getListProductId Get product ID from cart 
+     * Get product ID from cart 
      * @returns {Array.<string>} Array of ID or Empty Array
      */
     getListProductId() {

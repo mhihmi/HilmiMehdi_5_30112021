@@ -5,21 +5,20 @@
  */
 
 /** Class to Manage API Calls. 
- * @class
  * @hideconstructor
 */
 class ApiManager {
     static listProduct = null;
 
     /**
-     * @property {method} init Load configuration for Api Call
+     * Load configuration for Api Call
      */
     static async init() {
         this.config = await loadConfig();
     }
 
     /**
-     * @property {method} getAllProducts Call Api to retrieve all products
+     * Call Api to retrieve all products
      * @returns {Array.<Object>} Array of Product Objects
      */
     static async getAllProducts() {
@@ -32,7 +31,7 @@ class ApiManager {
     }
 
     /**
-     * @property {method} getProductById Call Api to retrieve a Product by his Id and create an objet of it
+     * Call Api to retrieve a Product by his Id and create an objet of it
      * @param {String} id product id to retrieve
      * @returns {Object} 
      */
@@ -43,7 +42,7 @@ class ApiManager {
     }
 
     /**
-     * @property {method} findProductById Method to find a Product by id
+     * To find a Product by id
      * @param {String} id product id to find
      * @returns {Object} Object with all product keys
      */
@@ -52,7 +51,7 @@ class ApiManager {
     }
 
     /**
-    * @property {method} findProductPriceById Method to find a Product Price by id
+    * To find a Product Price by id
     * @param {String} id product id's price to find
     * @returns {Int} Price Number of the product Id
     */
@@ -62,7 +61,7 @@ class ApiManager {
     }
 
     /**
-   * @property {method} postOrder Call Api to post an order
+   * Call Api to post an order
    * @param {Object} Object with method, headers and body
    * @returns {String} Order ID 
    */

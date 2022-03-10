@@ -1,5 +1,3 @@
-//@ts-check
-
 /**
  * @file cart.js is for cart page : to update cart and send form order
  * @author Medivix
@@ -135,10 +133,9 @@ const message = {
 }
 
 /**
- * @property {function} validate Function to validate input with Regex
+ * Function to validate input with Regex
  * @param {HTMLElement} field Targeted Element to control  
  * @param {RegExp} regex Regex rule
- * @returns void
  */
 function validate(field, regex) {
     if (regex.test(field.value)) {
