@@ -109,7 +109,7 @@ const patterns = {
     lastName: /^[A-Z]*$/g,  // All Caps Letters
     address: /^[a-zA-ZÀ-ÿ0-9\s,'-]*$/g,
     city: /^[A-Z]+(?:[\s-][A-Z]+)*$/g, // Full Caps
-    email: /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})*$/
+    email: /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})*$/ // Text, Numbers, @, -, _, .
 }
 
 const message = {

@@ -1,7 +1,11 @@
 # OC_P5_Kanap : Construisez un site e-commerce en Javascript
 
+<div align="right">
+
 [![HitCount](https://hits.dwyl.com/mhihmi/HilmiMehdi_5_30112021.svg?style=flat&show=unique)](# "Unique view count")
 [![HitCount](https://hits.dwyl.com/mhihmi/HilmiMehdi_5_30112021.svg?style=flat)](# "All view count")
+
+</div>
 
 This is the front end and back end server for Project 5 of the Web Developer path.
 
