@@ -88,7 +88,6 @@ ApiManager.init()
 
 /**
  * @property {function} badgeDisplay Display Badge on cart button 
- * @returns void
  */
 function badgeDisplay() {
     if (cart == null || cart.cart == 0) {
@@ -165,8 +164,6 @@ form.addEventListener("submit", (e) => {
         products,
     };
 
-    console.log(order);
-
     const postOptions = {
         method: "POST",
         headers: {
@@ -181,7 +178,6 @@ form.addEventListener("submit", (e) => {
                 ApiManager.postOrder(postOptions)
                     .then((orderId) => {
                         // localStorage.setItem("orderId", JSON.stringify(orderId));
-                        console.log(orderId);
                         document.location.href = `confirmation.html?id=${orderId}`;
                     })
                     .catch((error) => {
