@@ -87,7 +87,8 @@ ApiManager.init()
     })
 
 /**
- * @property {function} badgeDisplay Display Badge on cart button 
+ * Display Badge on cart button
+ * @function badgeDisplay 
  */
 function badgeDisplay() {
     if (cart == null || cart.cart == 0) {

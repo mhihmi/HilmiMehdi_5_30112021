@@ -12,6 +12,7 @@ class ApiManager {
 
     /**
      * Load configuration for Api Call
+     * @async
      */
     static async init() {
         this.config = await loadConfig();

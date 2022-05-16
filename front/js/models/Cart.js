@@ -6,18 +6,20 @@
 
 /**  
  * Class to Manage Cart from LocalStorage
+ * @class 
 */
 class Cart {
     /**
      * Build Empty Array or Cart from LocalStorage (with deserialization)
      */
     constructor() {
-        let cart = localStorage.getItem("cart");
-        if (cart == null) {
-            this.cart = [];
-        } else {
-            this.cart = JSON.parse(cart);
-        }
+        let cart = localStorage.getItem("cart");  // return null if no data
+        cart == null ? this.cart = [] : this.cart = JSON.parse(cart);
+        // if (cart == null) {
+        //     this.cart = [];
+        // } else {
+        //     this.cart = JSON.parse(cart);
+        // }
     }
 
     /**

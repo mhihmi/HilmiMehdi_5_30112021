@@ -11,6 +11,9 @@ ApiManager.init()
                 let content = listProduct.map(product => product.generateCardDom());
                 document.querySelector("#items").insertAdjacentHTML('beforeend', content.join(""));
             })
+            .catch((error) => {
+                console.log(`ERREUR : ${error}`);
+            })
     })
 
 let cart = new Cart();

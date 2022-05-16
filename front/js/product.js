@@ -14,7 +14,6 @@ ApiManager.init()
     .then(() => {
         ApiManager.getProductById(productID)
             .then(product => {
-
                 document.querySelector(".item__img").insertAdjacentHTML('afterbegin', product.generateImageDom());
                 document.querySelector("#title").insertAdjacentHTML('afterbegin', product.name);
                 document.querySelector("#price").insertAdjacentHTML('afterbegin', product.price);
