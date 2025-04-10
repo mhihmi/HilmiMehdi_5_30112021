@@ -4,16 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "doc": "jsdoc -c jsdoc.json"
+    "doc": "jsdoc -c jsdoc.json",
+    "generate-docs": "jsdoc --configure jsdoc.json --verbose"
   },
   "keywords": [],
   "author": "Medivix (js only)",
   "license": "ISC",
-  "devDependencies": {
-    "jsdoc": "^3.6.10",
-    "jsdoc-to-markdown": "^7.1.1"
-  },
   "dependencies": {
-    "clean-jsdoc-theme": "^3.3.3"
+    "clean-jsdoc-theme": "^4.3.0",
+    "jsdoc": "^4.0.4",
+    "jsdoc-to-markdown": "^9.1.1"
   }
 }
