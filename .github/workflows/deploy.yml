@@ -1,0 +1,85 @@
+name: Deploy-to-Production
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install cloudflared
+        run: |
+          cd /tmp
+          wget -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
+          sudo dpkg -i cloudflared-linux-amd64.deb
+
+      - name: Configure SSH
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          VPS_SERVER: ${{ secrets.VPS_SERVER }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -p $SSH_PORT -H $VPS_SERVER >> ~/.ssh/known_hosts
+
+      - name: Configure SSH for cloudflared
+        env:
+          VPS_HOSTNAME: ${{ secrets.VPS_HOSTNAME }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+        run: |
+          echo "Host $VPS_HOSTNAME" >> ~/.ssh/config
+          echo "  Port $SSH_PORT" >> ~/.ssh/config
+          echo "  ProxyCommand cloudflared access ssh --hostname %h" >> ~/.ssh/config
+          echo "  User $VPS_USER" >> ~/.ssh/config
+          echo "  IdentityFile ~/.ssh/id_rsa" >> ~/.ssh/config
+
+      - name: Create project directory
+        env:
+          VPS_SERVER: ${{ secrets.VPS_SERVER }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          PROJECT_PATH: ${{ secrets.PROJECT_PATH }}
+          PROJECT_NAME: ${{ secrets.PROJECT_NAME }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+        run: |
+          ssh -p $SSH_PORT $VPS_USER@$VPS_SERVER "mkdir -p $PROJECT_PATH/$PROJECT_NAME"
+
+      - name: Copy front content via SSH
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          VPS_SERVER: ${{ secrets.VPS_SERVER }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          PROJECT_PATH: ${{ secrets.PROJECT_PATH }}
+          PROJECT_NAME: ${{ secrets.PROJECT_NAME }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+        run: |
+          rsync -avz -e "ssh -p $SSH_PORT" --delete-after ./front/ $VPS_USER@$VPS_SERVER:$PROJECT_PATH/$PROJECT_NAME/
+
+      - name: Install node modules on VPS
+        env:
+          VPS_SERVER: ${{ secrets.VPS_SERVER }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          PROJECT_PATH: ${{ secrets.PROJECT_PATH }}
+          PROJECT_NAME: ${{ secrets.PROJECT_NAME }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+        run: |
+          ssh -p $SSH_PORT $VPS_USER@$VPS_SERVER "cd $PROJECT_PATH/$PROJECT_NAME && npm install"
+
+      - name: Verify deployment
+        env:
+          VPS_SERVER: ${{ secrets.VPS_SERVER }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          PROJECT_PATH: ${{ secrets.PROJECT_PATH }}
+          PROJECT_NAME: ${{ secrets.PROJECT_NAME }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+        run: |
+          ssh -p $SSH_PORT $VPS_USER@$VPS_SERVER "ls -la $PROJECT_PATH/$PROJECT_NAME && echo 'Deployment successful!'"
