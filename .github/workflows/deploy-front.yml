@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'front/**'
+      - '.github/workflows/deploy-front.yml'
 
 jobs:
   deploy:
