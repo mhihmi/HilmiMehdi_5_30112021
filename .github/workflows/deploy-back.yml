@@ -39,7 +39,7 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -p $SSH_PORT -H $VPS_SERVER >> ~/.ssh/known_hosts
-          ssh -p $SSH_PORT $VPS_USER@$VPS_SERVER "mkdir -p ${{ secrets.API_PATH }}/${{ secrets.PROJECT_NAME }}"
+          ssh -p $SSH_PORT $VPS_USER@$VPS_SERVER "cd ${{ secrets.API_PATH }} && mkdir -p ${{ secrets.PROJECT_NAME }}"
           scp -P $SSH_PORT kanap-back.tar.gz $VPS_USER@$VPS_SERVER:${{ secrets.API_PATH }}/${{ secrets.PROJECT_NAME }}/
 
       - name: Load and run Docker image on VPS (api folder)
