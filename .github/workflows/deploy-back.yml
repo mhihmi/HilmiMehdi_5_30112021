@@ -50,11 +50,13 @@ jobs:
           SSH_PORT: ${{ secrets.SSH_PORT }}
           API_PATH: ${{ secrets.API_PATH }}
           PROJECT_NAME: ${{ secrets.PROJECT_NAME }}
+          DOCKER_COMPOSE_PATH: ${{ secrets.DOCKER_COMPOSE_PATH }}
         run: |
           ssh -p $SSH_PORT $VPS_USER@$VPS_SERVER '
             cd ${{ secrets.API_PATH }}/${{ secrets.PROJECT_NAME }} && \
-            docker stop kanap-api || true && \
-            docker rm kanap-api || true && \
             docker load < kanap-api.tar.gz && \
-            docker run -d --name kanap-api -p 3000:3000 kanap-api:latest
+            cd $DOCKER_COMPOSE_PATH && \
+            docker compose down kanap-api || true && \
+            docker compose up -d kanap-api && \
+            rm -f ${{ secrets.API_PATH }}/${{ secrets.PROJECT_NAME }}/kanap-api.tar.gz
           '
