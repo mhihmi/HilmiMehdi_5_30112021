@@ -56,10 +56,7 @@ jobs:
             cd ${{ secrets.API_PATH }}/${{ secrets.PROJECT_NAME }} && \
             docker load < kanap-api.tar.gz && \
             cd $DOCKER_COMPOSE_PATH && \
-            cp docker-compose.yml docker-compose.yml.backup && \
-            sed -i 's/build: .*/image: kanap-api:latest/' docker-compose.yml && \
             docker compose down kanap-api || true && \
             docker compose up -d kanap-api && \
-            mv docker-compose.yml.backup docker-compose.yml && \
             rm -f ${{ secrets.API_PATH }}/${{ secrets.PROJECT_NAME }}/kanap-api.tar.gz
           "
