@@ -53,10 +53,7 @@ jobs:
           DOCKER_COMPOSE_PATH: ${{ secrets.DOCKER_COMPOSE_PATH }}
         run: |
           ssh -p $SSH_PORT $VPS_USER@$VPS_SERVER "
-            cd ${{ secrets.API_PATH }}/${{ secrets.PROJECT_NAME }} && \
-            docker load < kanap-api.tar.gz && \
-            cd ${{ secrets.DOCKER_COMPOSE_PATH }} && \
+            cd $DOCKER_COMPOSE_PATH && \
             docker compose down kanap-api || true && \
-            docker compose up -d kanap-api && \
-            rm -f ${{ secrets.API_PATH }}/${{ secrets.PROJECT_NAME }}/kanap-api.tar.gz
+            docker compose up -d kanap-api --build
           "
