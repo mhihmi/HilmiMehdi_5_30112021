@@ -24,7 +24,7 @@ class ApiManager {
      */
     static async getAllProducts() {
         if (this.listProduct == null) {
-            let data = await fetch(this.config.host + "/api/products");
+            let data = await fetch(this.config.host + "/products");
             let listProduct = await data.json();
             this.listProduct = listProduct.map(product => new Product(product));
         }
@@ -37,7 +37,7 @@ class ApiManager {
      * @returns {Object} 
      */
     static async getProductById(id) {
-        let data = await fetch(this.config.host + `/api/products/${id}`);
+        let data = await fetch(this.config.host + `/products/${id}`);
         let product = await data.json();
         return new Product(product);
     }
@@ -67,7 +67,7 @@ class ApiManager {
    * @returns {String} Order ID 
    */
     static async postOrder(options) {
-        let data = await fetch(this.config.host + `/api/products/order`, options);
+        let data = await fetch(this.config.host + `/products/order`, options);
         let OrderId = await data.json();
         return OrderId.orderId;
     }
