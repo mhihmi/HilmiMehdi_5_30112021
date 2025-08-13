@@ -24,7 +24,7 @@ class Product {
      * @returns {string} html card product
      */
     generateCardDom() {
-        return `<a href="./product.html?id=${this._id}">
+        return `<a href="./html/product.html?id=${this._id}">
                                   <article>
                                  <img src="${this.imageUrl}" alt="${this.altTxt}">
                                   <h3 class="productName">${this.name}</h3>
