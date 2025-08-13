@@ -1,0 +1,59 @@
+name: Deploy-Back-Docker
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'back/**'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        run: |
+          docker build -t kanap-back:latest ./back
+
+      - name: Save Docker image to archive
+        run: |
+          docker save kanap-back:latest | gzip > kanap-back.tar.gz
+
+
+      - name: Copy image archive to VPS (api folder)
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          VPS_SERVER: ${{ secrets.VPS_SERVER }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          API_PATH: ${{ secrets.API_PATH }}
+          PROJECT_NAME: ${{ secrets.PROJECT_NAME }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -p $SSH_PORT -H $VPS_SERVER >> ~/.ssh/known_hosts
+          ssh -p $SSH_PORT $VPS_USER@$VPS_SERVER "mkdir -p ${{ secrets.API_PATH }}/${{ secrets.PROJECT_NAME }}"
+          scp -P $SSH_PORT kanap-back.tar.gz $VPS_USER@$VPS_SERVER:${{ secrets.API_PATH }}/${{ secrets.PROJECT_NAME }}/
+
+      - name: Load and run Docker image on VPS (api folder)
+        env:
+          VPS_SERVER: ${{ secrets.VPS_SERVER }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          API_PATH: ${{ secrets.API_PATH }}
+          PROJECT_NAME: ${{ secrets.PROJECT_NAME }}
+        run: |
+          ssh -p $SSH_PORT $VPS_USER@$VPS_SERVER '
+            cd ${{ secrets.API_PATH }}/${{ secrets.PROJECT_NAME }} && \
+            docker stop kanap-back || true && \
+            docker rm kanap-back || true && \
+            docker load < kanap-back.tar.gz && \
+            docker run -d --name kanap-back -p 3000:3000 kanap-back:latest
+          '
