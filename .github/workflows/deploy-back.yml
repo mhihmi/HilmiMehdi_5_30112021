@@ -52,18 +52,11 @@ jobs:
           PROJECT_NAME: ${{ secrets.PROJECT_NAME }}
           DOCKER_COMPOSE_PATH: ${{ secrets.DOCKER_COMPOSE_PATH }}
         run: |
-          ssh -p $SSH_PORT $VPS_USER@$VPS_SERVER '
-            echo "=== DEBUG INFO ===" && \
-            echo "DOCKER_COMPOSE_PATH: $DOCKER_COMPOSE_PATH" && \
-            echo "API_PATH: ${{ secrets.API_PATH }}" && \
-            echo "PROJECT_NAME: ${{ secrets.PROJECT_NAME }}" && \
-            ls -la $DOCKER_COMPOSE_PATH/ && \
+          ssh -p $SSH_PORT $VPS_USER@$VPS_SERVER "
             cd ${{ secrets.API_PATH }}/${{ secrets.PROJECT_NAME }} && \
             docker load < kanap-api.tar.gz && \
-            cd $DOCKER_COMPOSE_PATH && \
-            echo "Current directory: $(pwd)" && \
-            ls -la && \
+            cd ${{ secrets.DOCKER_COMPOSE_PATH }} && \
             docker compose down kanap-api || true && \
             docker compose up -d kanap-api && \
             rm -f ${{ secrets.API_PATH }}/${{ secrets.PROJECT_NAME }}/kanap-api.tar.gz
-          '
+          "
