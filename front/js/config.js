@@ -9,6 +9,12 @@
  * @returns promise which resolves with the result of parsing the body text as JSON / API URl
  */
 async function loadConfig() {
-    let result = await fetch("../config.json");
+    let configPath;
+    if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
+        configPath = "../config.json";
+    } else {
+        configPath = "/kanap/config.json";
+    }
+    let result = await fetch(configPath);
     return result.json();
 }
