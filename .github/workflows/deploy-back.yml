@@ -58,14 +58,18 @@ jobs:
             docker load < kanap-api.tar.gz && \
             echo 'Navigation vers docker-compose...' && \
             cd $DOCKER_COMPOSE_PATH && \
-            echo 'Contenu du repertoire:' && \
-            ls -la && \
-            echo 'Verification du fichier docker-compose:' && \
-            cat docker-compose.yml | grep -A 10 kanap-api || echo 'Service kanap-api non trouve' && \
+            echo 'Backup du docker-compose original...' && \
+            cp docker-compose.yml docker-compose.yml.backup && \
+            echo 'Modification temporaire du docker-compose...' && \
+            sed -i 's/build: .*/image: kanap-api:latest/' docker-compose.yml && \
+            echo 'Verification de la modification:' && \
+            cat docker-compose.yml | grep -A 5 kanap-api && \
             echo 'Arret du service...' && \
             docker compose down kanap-api || true && \
-            echo 'Demarrage du service sans build...' && \
-            docker compose up -d kanap-api --no-build && \
+            echo 'Demarrage du service...' && \
+            docker compose up -d kanap-api && \
+            echo 'Restauration du docker-compose original...' && \
+            mv docker-compose.yml.backup docker-compose.yml && \
             echo 'Nettoyage...' && \
             rm -f ${{ secrets.API_PATH }}/${{ secrets.PROJECT_NAME }}/kanap-api.tar.gz
           "
