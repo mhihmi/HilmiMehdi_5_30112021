@@ -53,10 +53,19 @@ jobs:
           DOCKER_COMPOSE_PATH: ${{ secrets.DOCKER_COMPOSE_PATH }}
         run: |
           ssh -p $SSH_PORT $VPS_USER@$VPS_SERVER "
+            echo 'Chargement de l image...' && \
             cd ${{ secrets.API_PATH }}/${{ secrets.PROJECT_NAME }} && \
             docker load < kanap-api.tar.gz && \
+            echo 'Navigation vers docker-compose...' && \
             cd $DOCKER_COMPOSE_PATH && \
+            echo 'Contenu du repertoire:' && \
+            ls -la && \
+            echo 'Verification du fichier docker-compose:' && \
+            cat docker-compose.yml | grep -A 10 kanap-api || echo 'Service kanap-api non trouve' && \
+            echo 'Arret du service...' && \
             docker compose down kanap-api || true && \
-            docker compose up -d kanap-api && \
+            echo 'Demarrage du service sans build...' && \
+            docker compose up -d kanap-api --no-build && \
+            echo 'Nettoyage...' && \
             rm -f ${{ secrets.API_PATH }}/${{ secrets.PROJECT_NAME }}/kanap-api.tar.gz
           "
