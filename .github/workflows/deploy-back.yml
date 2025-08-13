@@ -19,11 +19,11 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t kanap-back:latest ./back
+          docker build -t kanap-api:latest ./back
 
       - name: Save Docker image to archive
         run: |
-          docker save kanap-back:latest | gzip > kanap-back.tar.gz
+          docker save kanap-api:latest | gzip > kanap-api.tar.gz
 
 
       - name: Copy image archive to VPS (api folder)
@@ -39,8 +39,8 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -p $SSH_PORT -H $VPS_SERVER >> ~/.ssh/known_hosts
-          ssh -p $SSH_PORT $VPS_USER@$VPS_SERVER "cd ${{ secrets.API_PATH }} && mkdir -p ${{ secrets.PROJECT_NAME }}"
-          scp -P $SSH_PORT kanap-back.tar.gz $VPS_USER@$VPS_SERVER:${{ secrets.API_PATH }}/${{ secrets.PROJECT_NAME }}/
+          ssh -p $SSH_PORT $VPS_USER@$VPS_SERVER "mkdir -p ${{ secrets.API_PATH }}/${{ secrets.PROJECT_NAME }}"
+          scp -P $SSH_PORT kanap-api.tar.gz $VPS_USER@$VPS_SERVER:${{ secrets.API_PATH }}/${{ secrets.PROJECT_NAME }}/
 
       - name: Load and run Docker image on VPS (api folder)
         env:
@@ -52,8 +52,8 @@ jobs:
         run: |
           ssh -p $SSH_PORT $VPS_USER@$VPS_SERVER '
             cd ${{ secrets.API_PATH }}/${{ secrets.PROJECT_NAME }} && \
-            docker stop kanap-back || true && \
-            docker rm kanap-back || true && \
-            docker load < kanap-back.tar.gz && \
-            docker run -d --name kanap-back -p 3000:3000 kanap-back:latest
+            docker stop kanap-api || true && \
+            docker rm kanap-api || true && \
+            docker load < kanap-api.tar.gz && \
+            docker run -d --name kanap-api -p 3000:3000 kanap-api:latest
           '
